@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>The Game Of Go!</title>
+	<link rel="stylesheet" type="text/css" href="semantic.min.css">
+	<style type="text/css">
+		body {
+			padding: 20px;
+		}
+
+		.layout {
+			position: fixed;
+			left: 80px;
+			top: 10px;
+			width: 760px;
+			margin: 20px 0;
+			border-radius: 3px;
+			background-color: #D8B25D;
+		}
+
+		.layout .row {
+			height: 40px;
+		}
+
+		.layout .segment {
+			height: 40px;
+			width: 40px;
+			margin: 0;
+			background-image: url(line.png);
+			display: inline-block;
+			background-color: #D8B25D;
+			border-radius: 0;
+			border-color: #D8B25D;
+		}
+	
+		.segment.white {
+			width: 40px;
+			height: 40px;
+			border-radius:50%;
+			background-image: none;
+			background-color: #fff;
+		}
+
+		.segment.black {
+			width: 40px;
+			height: 40px;
+			background-image: none;
+			background-color: #000;
+			border-radius:50%;
+		}
+	</style>
+</head>
+<body>
+	<div class="ui grid">
+	  <div class="one wide column">
+	  	<p>Plqy Go!</p>
+	  	<div class="ui white segment"></div> {{ white_count }}
+	  	<div class="ui inverted black segment"></div>{{ black_count }}
+	  </div>
+	</div>
+	<div class="layout">
+		<div v-for="x in 19" class="ui row"><div v-for="y in 19" class="ui segment" @click.stop="do"></div></div>
+	</div>
+	<script src="vue.min.js"></script>
+	<script>
+	new Vue({
+	  el: 'body',
+	  data: {
+	  	current: true, // black
+	  	white_count: 360,
+	  	black_count: 361
+	  },
+	  methods: {
+	  	do: function (event) {
+	  		if(event.target.className.match(new RegExp('(\\s|^)white|black(\\s|$)'))) {return}
+	  		var name = this.current ? 'black' : 'white'
+			event.target.className += ' ' + name
+			if (this.current) {this.black_count-=1} else {this.white_count-=1}
+			this.current = !this.current
+	  	}
+	  }
+	})
+	</script>
+</body>
+</html>
